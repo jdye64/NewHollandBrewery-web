@@ -1,0 +1,5 @@
+BeautifulSoup==3.2.1
+Flask==0.10.1
+beautifulsoup4==4.3.2
+python-dateutil==1.5
+requests==2.3.0
