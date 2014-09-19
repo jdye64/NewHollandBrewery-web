@@ -14,7 +14,10 @@ def listBeers():
     payload = {'custID': custID}
     resp = requests.post(url=url, data=payload)
 
-    soup = BeautifulSoup(resp.text)
+    return getListOfBeersFromResponse(resp)
+
+def getListOfBeersFromResponse(response):
+    soup = BeautifulSoup(response.text)
     res = soup('select', {'name': 'b'})
     beers = []
 
@@ -55,4 +58,9 @@ def findNewHollandBeers(lat, long, specificDrinkSearchingFor, includeBars, searc
         searchResult = {'dba': finderDba, 'address': finderAddress, 'phone': finderPhone, 'miles': finderMiles}
         results.append(searchResult)
 
-    return results
+    responsePayload = {'beer_list': getListOfBeersFromResponse(resp), 'search_results': results}
+
+    return responsePayload
+
+#Uncomment for command line debugging and view results
+#print findNewHollandBeers("33.7924600000", "-84.3404030000", "", "off", "15", "Druid Hills, GA 30306")
