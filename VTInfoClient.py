@@ -41,6 +41,21 @@ def buildAddress(addressTag):
 
     return address
 
+def findBrandsAtLocation(location):
+    brandsRoot = location.find('ul').find('li').contents
+    brandsList = recursiveBuildList(brandsRoot)
+    return brandsList
+
+#Recursivly builds a list of nested elements from the root
+def recursiveBuildList(root):
+    list = []
+    for element in root:
+        try:
+            list.extend(recursiveBuildList(element.contents))
+        except AttributeError:
+            list.append(element.replace('\r', '').replace('\n', '').replace('\t', '').strip())
+    return list
+
 def findNewHollandBeers(lat, long, specificDrinkSearchingFor, includeBars, searchRadius, townStateZip):
 
     # Get the information about the current user that is needed.
@@ -55,7 +70,11 @@ def findNewHollandBeers(lat, long, specificDrinkSearchingFor, includeBars, searc
         finderAddress = buildAddress(searchResult.find('td', {'class': 'finder_address'})).replace(u'\u00a0', ' ')
         finderPhone = searchResult.find('td', {'class': 'finder_phone'}).text.replace(u'\u00a0', ' ')
         finderMiles = searchResult.find('td', {'class': 'finder_miles'}).text.replace(u'\u00a0', ' ')
-        searchResult = {'dba': finderDba, 'address': finderAddress, 'phone': finderPhone, 'miles': finderMiles}
+
+        #Gets all of the brands that are available at this location
+        brandsAvailable = findBrandsAtLocation(searchResult)
+
+        searchResult = {'dba': finderDba, 'address': finderAddress, 'phone': finderPhone, 'miles': finderMiles, 'brands': brandsAvailable}
         results.append(searchResult)
 
     responsePayload = {'beer_list': getListOfBeersFromResponse(resp), 'search_results': results}
@@ -63,4 +82,4 @@ def findNewHollandBeers(lat, long, specificDrinkSearchingFor, includeBars, searc
     return responsePayload
 
 #Uncomment for command line debugging and view results
-#print findNewHollandBeers("33.7924600000", "-84.3404030000", "", "off", "15", "Druid Hills, GA 30306")
+print findNewHollandBeers("33.7924600000", "-84.3404030000", "", "off", "15", "Druid Hills, GA 30306")
