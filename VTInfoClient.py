@@ -82,4 +82,4 @@ def findNewHollandBeers(lat, long, specificDrinkSearchingFor, includeBars, searc
     return responsePayload
 
 #Uncomment for command line debugging and view results
-print findNewHollandBeers("33.7924600000", "-84.3404030000", "", "off", "15", "Druid Hills, GA 30306")
+#print findNewHollandBeers("33.7924600000", "-84.3404030000", "", "off", "15", "Druid Hills, GA 30306")

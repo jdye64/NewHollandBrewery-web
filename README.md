@@ -10,6 +10,7 @@ For simple installtion on a raspberry pi (which is what I am using to play aroun
 ```echo 'export WORKON_HOME=~/Envs' >> ~/.profile```
 ```source ~/.profile```
 ```source /usr/local/bin/virtualenvwrapper.sh```
+```echo 'source /usr/local/bin/virtualenvwrapper.sh' >> ~.profile```
 ```mkvirtualenv newholland```
 ```cd && mkdir newholland```
 ```git clone https://github.com/jdye64/NewHollandBrewery-web.git ./newholland```
